@@ -39,14 +39,14 @@ export default function ForgotPasswordPage() {
             Reset Password
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Enter your email address and we'll send you a link to reset your password
+            Enter your email address and we&apos;ll send you a link to reset your password
           </p>
         </div>
 
         {submitted ? (
           <div className="rounded-md bg-green-50 p-4">
             <p className="text-sm text-green-800">
-              Check your email for reset instructions. If an account exists with this email, you'll receive a reset link.
+              Check your email for reset instructions. If an account exists with this email, you&apos;ll receive a reset link.
             </p>
             <div className="mt-4">
               <Link

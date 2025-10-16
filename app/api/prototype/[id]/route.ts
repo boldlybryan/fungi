@@ -4,7 +4,7 @@ import { prisma } from '@/lib/db';
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await getCurrentUser();
@@ -13,9 +13,11 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
+
     const prototype = await prisma.prototype.findUnique({
       where: {
-        id: params.id,
+        id,
       },
       include: {
         previewDatabase: true,
@@ -49,7 +51,7 @@ export async function GET(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await getCurrentUser();
@@ -58,9 +60,11 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
+
     const prototype = await prisma.prototype.findUnique({
       where: {
-        id: params.id,
+        id,
       },
     });
 
@@ -89,7 +93,7 @@ export async function DELETE(
 
     // Soft delete - update status to ARCHIVED
     await prisma.prototype.update({
-      where: { id: params.id },
+      where: { id },
       data: { status: 'ARCHIVED' },
     });
 

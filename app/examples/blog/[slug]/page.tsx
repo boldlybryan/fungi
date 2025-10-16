@@ -89,12 +89,13 @@ const blogPostsData: Record<string, any> = {
   },
 };
 
-export default function BlogPostPage({
+export default async function BlogPostPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const post = blogPostsData[params.slug];
+  const { slug } = await params;
+  const post = blogPostsData[slug];
 
   if (!post) {
     return (

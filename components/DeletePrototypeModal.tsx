@@ -80,7 +80,7 @@ export default function DeletePrototypeModal({
             </p>
 
             <div className="mb-4 p-3 bg-gray-50 rounded-md">
-              <p className="text-sm text-gray-700 italic">"{description}"</p>
+              <p className="text-sm text-gray-700 italic">&quot;{description}&quot;</p>
             </div>
 
             {error && (

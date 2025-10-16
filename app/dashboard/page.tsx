@@ -9,7 +9,7 @@ type FilterStatus = 'ALL' | 'IN_PROGRESS' | 'SUBMITTED' | 'MERGED' | 'ARCHIVED';
 export default async function DashboardPage({
   searchParams,
 }: {
-  searchParams: { filter?: string; search?: string };
+  searchParams: Promise<{ filter?: string; search?: string }>;
 }) {
   const user = await getCurrentUser();
   
@@ -17,8 +17,9 @@ export default async function DashboardPage({
     redirect('/login');
   }
 
-  const filter = (searchParams.filter?.toUpperCase() || 'ALL') as FilterStatus;
-  const search = searchParams.search || '';
+  const params = await searchParams;
+  const filter = (params.filter?.toUpperCase() || 'ALL') as FilterStatus;
+  const search = params.search || '';
 
   // Build query
   const where: any = {
@@ -149,9 +150,9 @@ export default async function DashboardPage({
             </p>
             {!search && (
               <div className="space-y-2 max-w-md mx-auto text-sm text-gray-600">
-                <p>💡 Try: "Add a contact form to the landing page"</p>
-                <p>💡 Try: "Change the blog layout to a grid"</p>
-                <p>💡 Try: "Add a dark mode toggle"</p>
+                <p>💡 Try: &quot;Add a contact form to the landing page&quot;</p>
+                <p>💡 Try: &quot;Change the blog layout to a grid&quot;</p>
+                <p>💡 Try: &quot;Add a dark mode toggle&quot;</p>
               </div>
             )}
           </div>

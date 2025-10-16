@@ -1,14 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function SubmitPrototypePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = use(params);
   const router = useRouter();
   const [confirmed, setConfirmed] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -20,7 +21,7 @@ export default function SubmitPrototypePage({
     setLoading(true);
 
     try {
-      const response = await fetch(`/api/prototype/${params.id}/submit`, {
+      const response = await fetch(`/api/prototype/${id}/submit`, {
         method: 'POST',
       });
 
@@ -38,7 +39,7 @@ export default function SubmitPrototypePage({
 
       // Redirect after 3 seconds
       setTimeout(() => {
-        router.push(`/prototype/${params.id}`);
+        router.push(`/prototype/${id}`);
       }, 3000);
     } catch (err) {
       setError('An error occurred. Please try again.');
@@ -86,7 +87,7 @@ export default function SubmitPrototypePage({
 
         <div className="mb-6">
           <p className="text-gray-600 mb-4">
-            This will create a Pull Request in GitHub. Once submitted, you won't be able
+            This will create a Pull Request in GitHub. Once submitted, you won&apos;t be able
             to make further changes to this prototype.
           </p>
 
@@ -126,7 +127,7 @@ export default function SubmitPrototypePage({
 
         <div className="flex justify-end space-x-3">
           <Link
-            href={`/prototype/${params.id}`}
+            href={`/prototype/${id}`}
             className="px-6 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
           >
             Cancel

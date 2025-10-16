@@ -8,7 +8,7 @@ import PreviewPanel from '@/components/PreviewPanel';
 export default async function PrototypeWorkspacePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const user = await getCurrentUser();
   
@@ -16,8 +16,10 @@ export default async function PrototypeWorkspacePage({
     redirect('/login');
   }
 
+  const { id } = await params;
+
   const prototype = await prisma.prototype.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: { previewDatabase: true },
   });
 
@@ -48,7 +50,7 @@ export default async function PrototypeWorkspacePage({
             Access Denied
           </h1>
           <p className="text-gray-600 mb-4">
-            You don't have permission to access this prototype
+            You don&apos;t have permission to access this prototype
           </p>
           <Link
             href="/dashboard"

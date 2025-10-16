@@ -5,7 +5,7 @@ import { createPullRequest } from '@/lib/github';
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await getCurrentUser();
@@ -14,8 +14,10 @@ export async function POST(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
+
     const prototype = await prisma.prototype.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!prototype) {
